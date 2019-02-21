@@ -16,6 +16,7 @@ Ex. `/assignment_1`
 
 Create a new pull request for each questions on completion, then continue on with the rest of the questions.
 
+##  Assignments
 ###  Assignment 5
 
 Have the function AlphabetSoup(str) take the str string parameter being passed and return the string with the letters in alphabetical order (ie. hello becomes ehllo). Assume numbers and punctuation symbols will not be included in the string.
