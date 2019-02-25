@@ -117,6 +117,10 @@ function toWord(n) {
 
 
         if (out.indexOf("dollars and") == -1) {
+
+            if (out == "") {
+                out = "zero "
+            }
             out += "dollars and " + str + "cents.";
         } else {
             out += str + " cents.";
