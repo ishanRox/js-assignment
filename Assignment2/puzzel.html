@@ -1,284 +1,285 @@
+
 <!doctype html>
 <html>
-<head>
- 
-  <title>Sliding Puzzle</title>
-  <style>
-  
-  </style>
-</head>
-<body>
-  
-
-  
-    <form>
-     
- Enter a number and CLick to generate puzzel:       <input type="number"  id="no" value="3" min="0" >
-     
-
-     
-     <br>
-     </form>
-
-
-     <button onclick="game(document.getElementById('no').value)" >Click</button>
-    <br>
- 
-
-    <canvas id="puzzle" width="480px" height="480px"></canvas>
-  </div>
-
-
-
-
-
-
-<script type="text/javascript">
-
-
-var tileSize;
-var tileCount;
-var boardSize;
-var context;
-
-var img;
-window.onload = function () {
-
-
-	context = document.getElementById('puzzle').getContext('2d');
-
-	img = new Image();
-	img.src = 'a.jpg';
-	img.addEventListener('load', init, false);
-
-};
-
-
-//bord eke size ek
-
-boardSize = document.getElementById('puzzle').width;
-tileCount = document.getElementById('no').value;
-
-tileSize = boardSize / tileCount;
-var emptyTile = {
-	x: 0,
-	y: 0
-};
-var clickPosition = {
-	x: 0,
-	y: 0
-};
-
-
-clickPosition.x = 0;
-clickPosition.y = 0;
-
-
-emptyTile.x = 0;
-emptyTile.y = 0;
-
-var equalToOriginal = false;
-
-var tilesArray;
-
-
-function game(val) {
-	alert("Game on with " + val + " Tiles ");
-	tileCount = val;
-	tileSize = boardSize / tileCount;
-
-	init();
-
-
-}
-
-
-function init() {
-
-
-	//3 array ekak
-	tilesArray = new Array(tileCount);
-
-
-	for (var i = 0; i < tileCount; ++i) {
-
-
-		//3 athule thawa 3 k
-		tilesArray[i] = new Array(tileCount);
-
-
-		for (var j = 0; j < tileCount; ++j) {
-
-
-			tilesArray[i][j] = new Object;
-			tilesArray[i][j].name = j * tileSize + " " + i * tileSize;
-			//alert(tilesArray[i][j].name);
-			//eka kot eka obg 
-			tilesArray[i][j].x = i;
-			tilesArray[i][j].y = j;
-		}
-	}
-
-
-	//empty location eka hadanawa udama left corner eke
-	emptyTile.x = tilesArray[tileCount - 1][tileCount - 1].x;
-	emptyTile.y = tilesArray[tileCount - 1][tileCount - 1].y;
-	equalToOriginal = false;
-
-
-	function makeArrayRandom(array) {
-
-
-		for (var i = array.length - 1; i > 0; i--) {
-
-
-			var j = Math.floor(Math.random() * (i + 1));
-
-
-			var temp = array[i];
-
-
-			array[i] = array[j];
-
-
-			array[j] = temp;
-
-
-		}
-
-
-	}
-
-	//shuffel array by random method
-
-
-	for (var i = tilesArray.length - 1; i >= 0; i--) {
-		makeArrayRandom(tilesArray[i]);
-	}
-
-	//makeArrayRandom(tilesArray);
-
-	context.clearRect(0, 0, boardSize, boardSize);
-
-
-	for (var i = 0; i < tileCount; ++i) {
-		for (var j = 0; j < tileCount; ++j) {
-
-
-			var x = tilesArray[i][j].x;
-			var y = tilesArray[i][j].y;
-
-			//empty location ekata ara anith ewata danawa
-
-			if (i != emptyTile.x || j != emptyTile.y || equalToOriginal == true) {
-
-				//console.log(x * tileSize"," y * tileSize, tileSize, tileSize);
-				context.drawImage(img, x * tileSize, y * tileSize, tileSize, tileSize,
-					i * tileSize, j * tileSize, tileSize, tileSize);
-				//0 0 idala 100 100 300 ekaka
-			}
-		}
-	}
-
-
-	console.log(tilesArray);
-}
-
-
-document.getElementById('puzzle').onclick = function (e) {
-	//get the position relative to canvas get relative position (e.pageX - this.offsetLeft)
-	//img, x * tileSize, y * tileSize meka reverse engineer
-
-	clickPosition.x = Math.floor((e.pageX - this.offsetLeft) / tileSize);
-	clickPosition.y = Math.floor((e.pageY - this.offsetTop) / tileSize);
-
-
-	//abs damme minus nisa wenasa 1i nam lagama inne
-	if (Math.abs(emptyTile.x - clickPosition.x) + Math.abs(emptyTile.y - clickPosition.y) == 1) {
-
-
-		if (equalToOriginal) {
-			alert("You equalToOriginal it!");
-		}
-
-		if (!equalToOriginal) {
-			var empty = emptyTile;
-			var clicked = clickPosition;
-
-			tilesArray[empty.x][empty.y].x = tilesArray[clicked.x][clicked.y].x;
-			tilesArray[empty.x][empty.y].y = tilesArray[clicked.x][clicked.y].y;
-			tilesArray[clicked.x][clicked.y].x = tileCount - 1;
-			tilesArray[clicked.x][clicked.y].y = tileCount - 1;
-			empty.x = clicked.x;
-			empty.y = clicked.y;
-
-
-			checkequalToOriginal();
-
-
-		}
-
-
-		context.clearRect(0, 0, boardSize, boardSize);
-
-
-		//apahu adinawa
-		for (var i = 0; i < tileCount; ++i) {
-			for (var j = 0; j < tileCount; ++j) {
-
-
-				var x = tilesArray[i][j].x;
-				var y = tilesArray[i][j].y;
-
-
-				if (i != emptyTile.x || j != emptyTile.y || equalToOriginal == true) {
-
-					console.log(tileSize);
-
-
-					context.drawImage(img, x * tileSize, y * tileSize, tileSize, tileSize,
-						i * tileSize, j * tileSize, tileSize, tileSize);
-				}
-			}
-		}
-
-
-	}
-
-
-	if (equalToOriginal) {
-		alert("You equalToOriginal it!");
-	}
-};
-
-
-function checkequalToOriginal() {
-	var flag = true;
-
-
-	for (var i = 0; i < tileCount; ++i) {
-		for (var j = 0; j < tileCount; ++j) {
-
-
-			if (tilesArray[i][j].x != i || tilesArray[i][j].y != j) {
-				flag = false;
-			}
-
-
-		}
-	}
-
-
-	equalToOriginal = flag;
-
-}
-
-
-
-</script>
-
-
-
-  
-</body>
+   <head>
+      <title>Sliding Puzzle</title>
+      <style>
+         td,tr{
+         padding: 50px;
+         }  
+      </style>
+   </head>
+   <body>
+      <table>
+         <tr>
+            <td>
+               <h1>Puzzeled Image</h1>
+               <canvas id="puzzle" width="480px" height="480px"></canvas>
+            </td>
+            <td>
+               <h1>Original Image</h1>
+               <img src="a.jpg">
+            </td>
+         </tr>
+         <tr> 
+            Enter a number and CLick to generate puzzel:       <input type="number"  id="no" value="3" min="0" >
+            <button onclick="game(document.getElementById('no').value)" >Generate Random Puzzel</button>
+         </tr>
+         <tr> 
+            &nbsp;&nbsp;  Check If your answer is Correct : <button onclick="checkequalToOriginal()" > Click here to Check THe Answer</button>
+         </tr>
+      </table>
+      <script type="text/javascript">
+         var tileSize;
+         var tileCount;
+         var boardSize;
+         var context;
+         
+         var img;
+         window.onload = function () {
+         
+         
+         	context = document.getElementById('puzzle').getContext('2d');
+         
+         	img = new Image();
+         	img.src = 'a.jpg';
+         	img.addEventListener('load', init, false);
+         
+         };
+         
+         
+         //bord eke size ek
+         
+         boardSize = document.getElementById('puzzle').width;
+         tileCount = document.getElementById('no').value;
+         
+         tileSize = boardSize / tileCount;
+         var emptyTile = {
+         	x: 0,
+         	y: 0
+         };
+         var clickPosition = {
+         	x: 0,
+         	y: 0
+         };
+         
+         
+         clickPosition.x = 0;
+         clickPosition.y = 0;
+         
+         
+         emptyTile.x = 0;
+         emptyTile.y = 0;
+         
+         var equalToOriginal = false;
+         
+         var tilesArray;
+         
+         
+         function game(val) {
+         
+         	tileCount = val;
+         	tileSize = boardSize / tileCount;
+         
+         	init();
+         
+         
+         }
+         
+         
+         function init() {
+         
+         
+         	//3 array ekak
+         	tilesArray = new Array(tileCount);
+         
+         
+         	for (var i = 0; i < tileCount; ++i) {
+         
+         
+         		//3 athule thawa 3 k
+         		tilesArray[i] = new Array(tileCount);
+         
+         
+         		for (var j = 0; j < tileCount; ++j) {
+         
+         
+         			tilesArray[i][j] = new Object;
+         			tilesArray[i][j].name = j * tileSize + " " + i * tileSize;
+         			//alert(tilesArray[i][j].name);
+         			//eka kot eka obg 
+         			tilesArray[i][j].x = i;
+         			tilesArray[i][j].y = j;
+         		}
+         	}
+         
+         
+         	//empty location eka hadanawa ytma right corner eke
+         	emptyTile.x = tilesArray[tileCount - 1][tileCount - 1].x;
+         	emptyTile.y = tilesArray[tileCount - 1][tileCount - 1].y;
+         	equalToOriginal = false;
+         
+         
+         	function makeArrayRandom(array) {
+         
+         
+         		for (var i = array.length - 1; i > 0; i--) {
+         
+         
+         			var j = Math.floor(Math.random() * (i + 1));
+         
+         
+         			var temp = array[i];
+         
+         
+         			array[i] = array[j];
+         
+         
+         			array[j] = temp;
+         
+         
+         		}
+         
+         
+         	}
+         
+         	//shuffel array by random method
+         
+         
+         	for (var i = tilesArray.length - 1; i >= 0; i--) {
+         		makeArrayRandom(tilesArray[i]);
+         	}
+         
+         	//makeArrayRandom(tilesArray);
+         
+         	context.clearRect(0, 0, boardSize, boardSize);
+         
+         
+         	for (var i = 0; i < tileCount; ++i) {
+         		for (var j = 0; j < tileCount; ++j) {
+         
+         
+         			var x = tilesArray[i][j].x;
+         			var y = tilesArray[i][j].y;
+         
+         			//empty location ekata ara anith ewata danawa
+         
+         			if (i != emptyTile.x || j != emptyTile.y || equalToOriginal == true) {
+         
+         				//console.log(x * tileSize"," y * tileSize, tileSize, tileSize);
+         				context.drawImage(img, x * tileSize, y * tileSize, tileSize, tileSize,
+         					i * tileSize, j * tileSize, tileSize, tileSize);
+         				//0 0 idala 100 100 300 ekaka
+         			}
+         		}
+         	}
+         
+         
+         	console.log(tilesArray);
+         }
+         
+         
+         document.getElementById('puzzle').onclick = function (e) {
+         	//get the position relative to canvas get relative position (e.pageX - this.offsetLeft)
+         	//img, x * tileSize, y * tileSize meka reverse engineer
+         
+         	clickPosition.x = Math.floor((e.pageX - this.offsetLeft) / tileSize);
+         	clickPosition.y = Math.floor((e.pageY - this.offsetTop) / tileSize);
+         
+         
+         	//abs damme minus nisa wenasa 1i nam lagama inne
+         	if (Math.abs(emptyTile.x - clickPosition.x) + Math.abs(emptyTile.y - clickPosition.y) == 1) {
+         
+         
+         		if (!equalToOriginal) {
+         			var empty = emptyTile;
+         			var clicked = clickPosition;
+         
+         			tilesArray[empty.x][empty.y].x = tilesArray[clicked.x][clicked.y].x;
+         			tilesArray[empty.x][empty.y].y = tilesArray[clicked.x][clicked.y].y;
+         			tilesArray[clicked.x][clicked.y].x = tileCount - 1;
+         			tilesArray[clicked.x][clicked.y].y = tileCount - 1;
+         			empty.x = clicked.x;
+         			empty.y = clicked.y;
+         
+         
+         		
+         
+         
+         		}
+         
+         
+         		context.clearRect(0, 0, boardSize, boardSize);
+         
+         
+         		//apahu adinawa
+         		for (var i = 0; i < tileCount; ++i) {
+         			for (var j = 0; j < tileCount; ++j) {
+         
+         
+         				var x = tilesArray[i][j].x;
+         				var y = tilesArray[i][j].y;
+         
+         
+         				if (i != emptyTile.x || j != emptyTile.y || equalToOriginal == true) {
+         
+         					console.log(tileSize);
+         
+         
+         					context.drawImage(img, x * tileSize, y * tileSize, tileSize, tileSize,
+         						i * tileSize, j * tileSize, tileSize, tileSize);
+         				}
+         			}
+         		}
+         
+         
+         	}
+         
+         
+         	
+         }
+         
+         
+         function checkequalToOriginal() {
+         	var flag = true;
+         
+         
+         	for (var i = 0; i < tileCount; ++i) {
+         		for (var j = 0; j < tileCount; ++j) {
+         console.log(tilesArray[i][j].x+"x their   x"+i);
+         console.log(tilesArray[i][j].y+"y their   y"+j);
+         console.log(emptyTile.y+"y empty  x empty"+emptyTile.x);
+         
+         if (i != emptyTile.x || j != emptyTile.y) {
+         
+         if (tilesArray[i][j].x != i || tilesArray[i][j].y != j) {
+         			//game eka dinnata passe squares paninawa naththam
+         				flag = false;
+         			}
+         
+         }
+         
+         			
+         
+         
+         		}
+         	}
+         
+         
+         	equalToOriginal = flag;
+         if (equalToOriginal) {
+         		alert("You Make the puzzel To Match The Original !");
+         
+         			equalToOriginal = false;
+         	}else{
+         
+         		alert("try Again !")
+         	}
+         }
+         
+         
+         
+      </script>
+   </body>
 </html>
+
