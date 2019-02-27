@@ -1,110 +1,75 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title></title>
 </head>
+
 <body>
+    <form action="">
+        <h2>Input all matrix rows followed by commas and press add EX-0111,1111, 1111, 1111 or "0111", "1111", "1111",
+            "1111":</h2><input type="text" id="string1">
+        <input type="submit" onclick="addToArray(document.getElementById('string1').value)"
+            value="Click to calculate the area of MaximalSquare" id="add">
+    </form>
 
-<form action="">
-<h2>Input all matrix rows followed by commas and press add EX-0111,1111, 1111, 1111 or "0111", "1111", "1111", "1111":</h2><input type="text" id="string1">
-<input type="submit" onclick="addToArray(document.getElementById('string1').value)" value="Click to calculate the area of MaximalSquare" id="add">
-</form>
-
-
-<script type = "text/javascript" >
-
-    //add split using commas and call my function
-    function addToArray(str) {
-
-        //clean the data by remove spaces
-        str = str.replace(/\s/g, '');
-        str = str.trim();
-        str = str.split('"').join('');
-
-
-        window.alert("Area of the MaximalSquare is : " + MaximalSquare(str.split(',')));
-    }
-
-
-function MaximalSquare(matrix) {
-
-
-    //rows gana
-    var Rows = matrix.length;
-
-    //colm gana
-    var Columns = matrix[0].length;
-
-
-    //ekakata original 0 1
-    //anith eke ekathuwa
-
-    var tempArray1 = [];
-    var tempArray2 = [];
-
-
-    //real no thiyena ekak hadagaththa ena data clear karala
-
-    for (var i = 0; i < matrix.length; i++) {
-
-        tempArray1[i] = [];
-        tempArray2[i] = [];
-
-        for (var ii = 0; ii < matrix[i].length; ii++) {
-
-            //ekathu karanna wena nisa
-            var binary = parseInt(matrix[i][ii]);
-            tempArray1[i][ii] = [];
-            tempArray1[i][ii] = binary;
-            tempArray2[i][ii] = [];
-
+    <script type="text/javascript">
+        //add split using commas and call my function
+        function addToArray(str) {
+            //clean the data by remove spaces
+            str = str.replace(/\s/g, '');
+            str = str.trim();
+            str = str.split('"').join('');
+            window.alert("Area of the MaximalSquare is : " + MaximalSquare(str.split(',')));
         }
-
-
-    }
-
-
-    //palaweni row eka set karnawa
-    for (var i = 0; i < Rows; i++) {
-        console.log(tempArray1[i][0]);
-        tempArray2[i][0] = tempArray1[i][0];
-    }
-
-    //palaweni column eka set kala
-    for (var i = 0; i < Columns; i++) {
-        tempArray2[0][i] = tempArray1[0][i];
-    }
-
-
-    for (var i = 1; i < Rows; i++) {
-        for (var j = 1; j < Columns; j++) {
-            if (tempArray1[i][j] == 1)
-                //wam paththe eka ,uda eka kelinma eka 3  ekathuwa temp 2 ekta ekathu karanawa dan agaya
-                tempArray2[i][j] = Math.min(tempArray2[i][j - 1], Math.min(tempArray2[i - 1][j], tempArray2[i - 1][j - 1])) + 1;
-            else
-                tempArray2[i][j] = 0;
-        }
-    }
-
-
-    //temp2 eken agayak dagena ekada wadima balala eeka warga
-    var max_of_s = tempArray2[0][0];
-    for (var i = 0; i < Rows; i++) {
-        for (var j = 0; j < Columns; j++) {
-            if (max_of_s < tempArray2[i][j]) {
-                max_of_s = tempArray2[i][j];
+        function MaximalSquare(matrix) {
+            var Rows = matrix.length;//rows gana
+            var Columns = matrix[0].length; //colm gana
+            //ekakata original 0 1
+            //anith eke ekathuwa
+            var tempArray1 = [];
+            var tempArray2 = [];
+            //real no thiyena ekak hadagaththa ena data clear karala
+            for (var i = 0; i < matrix.length; i++) {
+                tempArray1[i] = [];
+                tempArray2[i] = [];
+                for (var ii = 0; ii < matrix[i].length; ii++) {
+                    //ekathu karanna wena nisa
+                    var binary = parseInt(matrix[i][ii]);
+                    tempArray1[i][ii] = [];
+                    tempArray1[i][ii] = binary;
+                    tempArray2[i][ii] = [];
+                }
             }
+            //palaweni row eka set karnawa
+            for (var i = 0; i < Rows; i++) {
+                tempArray2[i][0] = tempArray1[i][0];
+            }
+            //palaweni column eka set kala
+            for (var i = 0; i < Columns; i++) {
+                tempArray2[0][i] = tempArray1[0][i];
+            }
+            for (var i = 1; i < Rows; i++) {
+                for (var j = 1; j < Columns; j++) {
+                    if (tempArray1[i][j] == 1)
+                        //wam paththe eka ,uda eka kelinma eka 3  ekathuwa temp 2 ekta ekathu karanawa dan agaya
+                        tempArray2[i][j] = Math.min(tempArray2[i][j - 1], Math.min(tempArray2[i - 1][j], tempArray2[i - 1][j - 1])) + 1;
+                    else
+                        tempArray2[i][j] = 0;
+                }
+            }
+            //temp2 eken agayak dagena ekada wadima balala eeka warga
+            var max_of_s = tempArray2[0][0];
+            for (var i = 0; i < Rows; i++) {
+                for (var j = 0; j < Columns; j++) {
+                    if (max_of_s < tempArray2[i][j]) {
+                        max_of_s = tempArray2[i][j];
+                    }
+                }
+            }
+            return max_of_s * max_of_s;
         }
-    }
-
-
-    return max_of_s * max_of_s;
-
-}
-
-
-</script>
-
-
+    </script>
 </body>
+
 </html>
