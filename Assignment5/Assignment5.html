@@ -1,43 +1,32 @@
 <html>
+
 <head>
 	<title>assignment 5</title>
 </head>
+
 <body>
-
-<form action="">
-<h1>Input String to arrange  alphabetical order:</h1><input type="text" id="string">	
-<input type="submit" onclick="AlphabetSoup(document.getElementById('string').value)" value="Click to submit" id="sub">
-</form>
-
-<script type = "text/javascript" >
-
-	function AlphabetSoup(str) {
-		var charArray = [];
-		var sortedString = "";
-
-		//add letters in index of string to the array using for loop
-		for (var i = str.length - 1; i >= 0; i--) {
-			charArray.push(str[i]);
+	<form action="">
+		<h1>Input String to arrange alphabetical order:</h1><input type="text" id="string">
+		<input type="submit" onclick="AlphabetSoup(document.getElementById('string').value)" value="Click to submit"
+			id="sub">
+	</form>
+	<script type="text/javascript">
+		function AlphabetSoup(str) {
+			var charArray = [];
+			var sortedString = "";
+			//add letters in index of string to the array using for loop
+			for (var i = str.length - 1; i >= 0; i--) {
+				charArray.push(str[i]);
+			}
+			//sort them so they alphabatically sorted
+			charArray.sort();
+			for (var i = 0; i < charArray.length; i++) {
+				//sorted letters are add to form a string
+				sortedString += charArray[i];
+			}
+			window.alert(sortedString);
 		}
-
-
-		//sort them so they alphabatically sorted
-		charArray.sort();
-
-		for (var i = 0; i < charArray.length; i++) {
-
-			//sorted letters are add to form a string
-			sortedString += charArray[i];
-		}
-
-		window.alert(sortedString);
-
-
-	}
-
 	</script>
-
-
-
 </body>
+
 </html>
