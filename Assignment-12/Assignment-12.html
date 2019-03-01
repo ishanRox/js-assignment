@@ -1,94 +1,91 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <title></title>
-</head>
-
-<body>
+  <head>
+    <title>Dollar to Word</title>
+  </head>
+  <body>
     <form action="">
-        <h2>Input a dollar amount in number to get worded representation :</h2><input type="number" min="0"
-            id="string1">
-        <input type="submit" onclick="toWord(document.getElementById('string1').value)" value="Click to calculate "
-            id="add">
+      <h2>Input a dollar amount in number to get worded representation :</h2>
+      <input type="number" min="0"
+        id="string1">
+      <input type="submit" onclick="toWord(document.getElementById('string1').value)" value="Click to calculate "
+        id="add">
     </form>
-    <script type="text/javascript">
-        //zero handle kala ee nisa damme na plus place value nathi eka handle karanna
-        var one = ["", "one ", "two ", "three ", "four ",
-            "five ", "six ", "seven ", "eight ",
-            "nine ", "ten ", "eleven ", "twelve ",
-            "thirteen ", "fourteen ", "fifteen ",
-            "sixteen ", "seventeen ", "eighteen ",
-            "nineteen "
-        ];
-        //map wenakota lesi naththam 0 wen start wenne DAN 4 dunnama fourty enwa
-        var ten = ["", "", "twenty ", "thirty ", "fourty ",
-            "fifty ", "sixty ", "seventy ", "eighty ",
-            "ninety "
-        ];
-
-        function noToWord(number, s) {
-            var str = "";
-            //teen da nadda balnawa
-            if (number > 19) {
-                str += ten[Math.floor(number / 10)] + one[number % 10];
-            } else {
-                str += one[number];
-            }
-            // if n is non-zero  
-            if (number != 0) {
-                str += s;
-            }
-            return str;
+    <script type = "text/javascript" >
+      //zero handle kala ee nisa damme na plus place value nathi eka handle karanna
+      var one = ["", "one ", "two ", "three ", "four ",
+        "five ", "six ", "seven ", "eight ",
+        "nine ", "ten ", "eleven ", "twelve ",
+        "thirteen ", "fourteen ", "fifteen ",
+        "sixteen ", "seventeen ", "eighteen ",
+        "nineteen "
+      ];
+      //map wenakota lesi naththam 0 wen start wenne DAN 4 dunnama fourty enwa
+      var ten = ["", "", "twenty ", "thirty ", "fourty ",
+      "fifty ", "sixty ", "seventy ", "eighty ",
+      "ninety "
+      ];
+      function noToWord(number, s) {
+      var str = "";
+      //teen da nadda balnawa
+      if (number > 19) {
+        str += ten[Math.floor(number / 10)] + one[number % 10];
+      } else {
+        str += one[number];
+      }
+      // if n is non-zero  
+      if (number != 0) {
+        str += s;
+      }
+      return str;
+      }
+      function toWord(n) {
+      if (n == 0) {
+        window.alert("zero dollars.");
+        return "zero dollars";
+      }
+      var out = "";
+      //math floor damme undefined ena nisa float walin index ekta
+      out += noToWord(Math.floor(((n / 100000) % 100)), "hundred  thousand ,");
+      //meke 10 thousand damma array ekata eka nisa 10 thousand oni na
+      out += noToWord(Math.floor(((n / 1000) % 100)), "thousand ");
+      //  hundreds places ganna thama divide karanne 
+      out += noToWord(Math.floor(((n / 100) % 10)), "hundred ");
+      if (n > 100 && n % 100) {
+        out += "";
+      }
+      // ten places ganna meke divide karanne  
+      out += noToWord(Math.floor(((n % 100))), "dollars and ");
+      //integer eka float ekekn seperate karaganna thama eg 100.50-100 ithiri .50*100==50 eka mage array walin gannawa
+      if (n - Math.floor(n) == 0) {
+        if (out.indexOf("dollars and") == -1) {
+          out += "dollars and " + "zero cents.";
+        } else {
+          out += "zero cents.";
         }
-
-        function toWord(n) {
-            if (n == 0) {
-                window.alert("zero dollars.");
-                return "zero dollars";
-            }
-            var out = "";
-            //math floor damme undefined ena nisa float walin index ekta
-            out += noToWord(Math.floor(((n / 100000) % 100)), "hundred  thousand ,");
-            //meke 10 thousand damma array ekata eka nisa 10 thousand oni na
-            out += noToWord(Math.floor(((n / 1000) % 100)), "thousand ");
-            //  hundreds places ganna thama divide karanne 
-            out += noToWord(Math.floor(((n / 100) % 10)), "hundred ");
-            if (n > 100 && n % 100) {
-                out += "";
-            }
-            // ten places ganna meke divide karanne  
-            out += noToWord(Math.floor(((n % 100))), "dollars and ");
-            //integer eka float ekekn seperate karaganna thama eg 100.50-100 ithiri .50*100==50 eka mage array walin gannawa
-            if (n - Math.floor(n) == 0) {
-                if (out.indexOf("dollars and") == -1) {
-                    out += "dollars and " + "zero cents.";
-                } else {
-                    out += "zero cents.";
-                }
-            } else {
-                var str = "";
-                //meka kale floating point eka int ekak karan index array ekata daganna
-                var cent = Math.round(((n - Math.floor(n)) * 100));
-                if (cent > 19) {
-                    str += ten[Math.floor(cent / 10)] + one[cent % 10];
-                } else {
-                    str += one[cent];
-                }
-                if (out.indexOf("dollars and") == -1) {
-                    if (out == "") {
-                        out = "zero "
-                    }
-                    out += "dollars and " + str + "cents.";
-                } else {
-                    out += str + "cents.";
-                }
-            }
-            out = (out.indexOf("one cents.") != -1) ? out.replace("cents.", "cent.") : out;
-            window.alert(out.charAt(0).toUpperCase() + out.slice(1));
-            return out;
+      } else {
+        var str = "";
+        //meka kale floating point eka int ekak karan index array ekata daganna
+        var cent = Math.round(((n - Math.floor(n)) * 100));
+        if (cent > 19) {
+          str += ten[Math.floor(cent / 10)] + one[cent % 10];
+        } else {
+          str += one[cent];
         }
+        if (out.indexOf("dollars and") == -1) {
+          if (out == "") {
+            out = "zero ";
+          }
+          out += "dollars and " + str + "cents.";
+        } else {
+          out += str + "cents.";
+        }
+      }
+      out = (out.indexOf("one cents.") != -1) ? out.replace("cents.", "cent.") : out;
+      window.alert(out.charAt(0).toUpperCase() + out.slice(1));
+      return out;
+      }
     </script>
-</body>
-
+  </body>
 </html>
+
