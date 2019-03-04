@@ -1,42 +1,35 @@
 <!doctype html>
 <html>
+
 <head>
   <title>Sliding Puzzle</title>
   <style>
-    td,
-    tr {
-      padding: 50px;
+    div {
+      padding: 0px;
+      margin: 0px;
     }
+
   </style>
 </head>
+
 <body>
-  <table>
-    <tr>
-      <td>
-        <h1>Puzzeled Image</h1>
-        <canvas id="puzzle" width="480px" height="480px"></canvas>
-      </td>
-      <td>
-        <h1>Original Image</h1>
-        <img src="a.jpg">
-      </td>
-    </tr>
-    <tr>
-      Enter a number and CLick to generate puzzel: <input type="number" id="no" value="3" min="0">
-      <button onclick="game(document.getElementById('no').value)">Generate Random Puzzel</button>
-    </tr>
-    <tr>
-      &nbsp;&nbsp; Check If your answer is Correct : <button onclick="checkequalToOriginal()"> Click here to Check
-        THe Answer</button>
-    </tr>
-  </table>
+  <div style="float: left;"> <canvas id="puzzle" width="480px" height="480px"></canvas>
+    <h1>Puzzeled Image</h1>
+    Enter a number and CLick to generate puzzel: <input type="number" id="no" value="3" min="0">
+    <button onclick="game(document.getElementById('no').value)">Generate Random Puzzel</button>
+  </div>
+  <div style="float: right;">
+    <img src="a.jpg">
+    <h1>Original Image</h1>
+    Check If your answer is Correct : <button onclick="checkequalToOriginal()"> Click here to Check
+      THe Answer</button>
+  </div>
   <script type="text/javascript">
     var tileSize;
     var tileCount;
     var boardSize;
     var context;
     var img;
-
     window.onload = function() {
       context = document.getElementById('puzzle').getContext('2d');
       img = new Image();
@@ -209,4 +202,5 @@
 
   </script>
 </body>
+
 </html>
